@@ -1,0 +1,50 @@
+import React, { useState } from 'react';
+import './App.css';
+
+//Page will need to completely re-render, so use a hook to flip it
+
+//this prop just acts as a blank trigger
+interface StartMenuProps {
+  on_start: () => void;
+}
+
+const StartMenu: React.FC<StartMenuProps> = ({ on_start }) => {
+  return (
+    <main>
+      <button onClick={on_start}>Start Game</button>
+    </main>
+  );
+};
+
+const MainPage = () => {
+  return (
+    <main>
+      main page goes here
+    </main>
+  );
+}
+const App: React.FC = () => {
+  //start with false state, to render the start menu
+  const [isGameStarted, setIsGameStarted] = useState(false);
+
+  function startGame() {
+    //this flips the below ternary, rendering the main page
+    setIsGameStarted(true);
+  };
+  /*At program start, the ternary returns false 
+  and renders the start menu. Trigger the callback when clicked,
+  which flips the state to true, and renders the main page*/
+  return (
+    <main>
+      {!isGameStarted ? (
+        <StartMenu on_start={startGame} />
+      ) : (
+        //if the state is true, render the main page
+        <MainPage />
+      )}
+    </main>
+  );
+};
+
+export default App;
+
